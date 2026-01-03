@@ -243,12 +243,13 @@ public class PackManager {
         for (final Identifier block : BuiltInRegistries.BLOCK.keySet()) {
             if (block.getNamespace().equals("minecraft")) continue;
             for (final ModInfo mod : namespacesToMods.get(block.getNamespace())) {
-                final Path checkFile = mod.resolveFile("assets/" + block.getNamespace() + "/blockstates/" + block.getPath() + ".json");
+                final String checkFilePath = "assets/" + block.getNamespace() + "/blockstates/" + block.getPath() + ".json";
+                final Path checkFile = mod.resolveFile(checkFilePath);
                 if (checkFile != null) {
                     modsToBlocks.put(mod.id(), block);
                     break;
                 } else {
-                    LOGGER.warn("Failed to find path for block state {}, skipping", block);
+                    LOGGER.warn("Failed to find path for {} mods block state {} at path {}, skipping", mod.id(), block, checkFilePath);
                 }
             }
         }
@@ -269,12 +270,13 @@ public class PackManager {
             }
 
             for (final ModInfo mod : namespacesToMods.get(itemId.getNamespace())) {
-                final Path checkFile = mod.resolveFile("assets/" + itemModel.getNamespace() + "/items/" + itemModel.getPath() + ".json");
+                final String checkFilePath = "assets/" + itemModel.getNamespace() + "/items/" + itemModel.getPath() + ".json";
+                final Path checkFile = mod.resolveFile(checkFilePath);
                 if (checkFile != null) {
                     modsToItems.put(mod.id(), itemId);
                     break;
                 } else {
-                    LOGGER.warn("Failed to find path for item {}, skipping", item);
+                    LOGGER.warn("Failed to find path for {} mods item {} at path {}, skipping", mod.id(), item, checkFilePath);
                 }
             }
         }
